@@ -279,13 +279,13 @@
   .info-row b{display:block;font-size:13px;color:var(--gray-500);margin-bottom:3px;}
   .info-row span, .info-row a{font-size:14.5px;color:var(--ink);}
   .map-box{
-    border-radius:14px;overflow:hidden;border:1px solid var(--border);
-    aspect-ratio:4/3.1;background:
-      linear-gradient(var(--sky-050),var(--sky-050)) padding-box;
-    position:relative;
+  border-radius:14px;overflow:hidden;border:1px solid var(--border);
+  aspect-ratio:4/3.1;
+  position:relative;
   }
-  .map-box svg{width:100%;height:100%;}
-
+  .map-box img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  }
   .contact-form{display:flex;flex-direction:column;gap:14px;}
   .contact-form label{font-size:13px;font-weight:600;color:var(--navy-800);margin-bottom:-8px;}
   .contact-form input, .contact-form textarea{
@@ -718,19 +718,8 @@
             <div><b>Lab 위치</b><span>경남 진주시 진주대로 501 경상국립대학교 가좌캠퍼스</span></div>
           </div>
 
-          <div class="map-box" role="img" aria-label="연구실 위치 약도">
-            <svg viewBox="0 0 420 330" xmlns="http://www.w3.org/2000/svg">
-              <rect width="420" height="330" fill="#eaf5fc"/>
-              <g stroke="#bcdcf0" stroke-width="1">
-                <line x1="0" y1="70" x2="420" y2="70"/><line x1="0" y1="150" x2="420" y2="150"/>
-                <line x1="0" y1="230" x2="420" y2="230"/><line x1="105" y1="0" x2="105" y2="330"/>
-                <line x1="210" y1="0" x2="210" y2="330"/><line x1="315" y1="0" x2="315" y2="330"/>
-              </g>
-              <rect x="150" y="120" width="120" height="80" rx="6" fill="#0b2340"/>
-              <text x="210" y="165" text-anchor="middle" fill="#ffffff" font-size="13" font-family="Pretendard, sans-serif" font-weight="600">BAND Lab</text>
-              <circle cx="210" cy="200" r="6" fill="#4fa9e0"/>
-              <path d="M210 200 v20" stroke="#4fa9e0" stroke-width="2"/>
-            </svg>
+          <div class="map-box">
+           <img src="images/map.jpg" alt="경상국립대학교 약학대학 28동, BAND Lab 위치 지도">
           </div>
         </div>
 
