@@ -1,0 +1,809 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BAND Lab | 나노바이오의약전달연구실</title>
+<meta name="description" content="Biologics & Advanced Nanomedicine Delivery (BAND) Laboratory - 지질기반나노입자, 유전자/약물전달, 면역치료 연구">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;500;600;700&family=Source+Serif+4:opsz,wght@8..60,400;8..60,500;8..60,600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css">
+<style>
+  :root{
+    --navy-950:#081a30;
+    --navy-900:#0b2340;
+    --navy-800:#123a63;
+    --navy-700:#1c4d7c;
+    --sky-500:#4fa9e0;
+    --sky-400:#7cc2ea;
+    --sky-100:#eaf5fc;
+    --sky-050:#f4faff;
+    --white:#ffffff;
+    --ink:#1c2530;
+    --gray-600:#54606e;
+    --gray-500:#7a8494;
+    --border:#e1e8f0;
+    --serif:'Noto Serif KR','Source Serif 4',serif;
+    --sans:'Pretendard','Noto Sans KR',-apple-system,sans-serif;
+    --maxw:1180px;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+  body{
+    font-family:var(--sans);
+    color:var(--ink);
+    background:var(--white);
+    line-height:1.65;
+    -webkit-font-smoothing:antialiased;
+  }
+  img,svg{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 28px;}
+  section{scroll-margin-top:76px;}
+
+  /* ---------- lipid dot pattern divider (signature motif) ---------- */
+  .lipid-rule{
+    display:flex;align-items:center;gap:6px;
+    margin:0 0 18px;
+  }
+  .lipid-rule .bilayer{
+    display:flex;gap:4px;
+  }
+  .lipid-rule .bilayer span{
+    width:6px;height:6px;border-radius:50%;
+    background:var(--sky-500);
+  }
+  .lipid-rule .bilayer span:nth-child(2n){background:var(--navy-800);opacity:.55;}
+  .lipid-rule .line{flex:1;height:1px;background:var(--border);}
+
+  /* ---------- header ---------- */
+  header{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(11,35,64,0.92);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid rgba(255,255,255,0.08);
+  }
+  .navbar{
+    max-width:var(--maxw);margin:0 auto;padding:0 28px;
+    height:72px;display:flex;align-items:center;justify-content:space-between;
+  }
+  .brand{display:flex;align-items:center;gap:12px;color:var(--white);}
+  .brand-mark{
+    width:38px;height:38px;flex-shrink:0;
+  }
+  .brand-text{display:flex;flex-direction:column;line-height:1.2;}
+  .brand-text .en{font-family:var(--serif);font-weight:600;font-size:16px;letter-spacing:.03em;}
+  .brand-text .ko{font-size:11px;color:var(--sky-400);letter-spacing:.02em;}
+  nav.mainnav ul{display:flex;gap:2px;}
+  nav.mainnav a{
+    display:block;padding:10px 16px;font-size:14.5px;font-weight:500;
+    color:rgba(255,255,255,0.82);border-radius:6px;transition:background .2s,color .2s;
+  }
+  nav.mainnav a:hover, nav.mainnav a:focus-visible{background:rgba(255,255,255,0.08);color:var(--white);}
+  nav.mainnav a.active{color:var(--sky-400);}
+  .navtoggle{
+    display:none;background:none;border:1px solid rgba(255,255,255,0.25);
+    border-radius:6px;width:40px;height:40px;cursor:pointer;position:relative;
+  }
+  .navtoggle span, .navtoggle span::before, .navtoggle span::after{
+    content:'';position:absolute;left:9px;right:9px;height:2px;background:var(--white);
+    transition:transform .25s, opacity .25s;
+  }
+  .navtoggle span{top:19px;}
+  .navtoggle span::before{content:'';top:-7px;position:absolute;left:0;right:0;}
+  .navtoggle span::after{content:'';top:7px;position:absolute;left:0;right:0;}
+  .navtoggle.open span{background:transparent;}
+  .navtoggle.open span::before{transform:translateY(7px) rotate(45deg);}
+  .navtoggle.open span::after{transform:translateY(-7px) rotate(-45deg);}
+
+  /* ---------- hero ---------- */
+  .hero{
+    position:relative;
+    background:radial-gradient(1100px 620px at 78% -10%, var(--navy-700) 0%, var(--navy-900) 55%, var(--navy-950) 100%);
+    color:var(--white);
+    padding:168px 0 96px;
+    overflow:hidden;
+  }
+  .hero .wrap{display:grid;grid-template-columns:1.15fr 0.85fr;gap:56px;align-items:center;}
+  .eyebrow{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;
+    color:var(--sky-400);font-weight:600;margin-bottom:22px;
+  }
+  .eyebrow::before{content:'';width:26px;height:1px;background:var(--sky-400);}
+  .hero h1{
+    font-family:var(--serif);font-weight:700;
+    font-size:clamp(30px,4vw,46px);line-height:1.28;letter-spacing:-.01em;
+    margin-bottom:10px;
+  }
+  .hero h1 .ko{display:block;font-size:.5em;color:var(--sky-400);font-weight:500;margin-top:10px;letter-spacing:.01em;}
+  .hero p.lead{
+    font-size:16.5px;color:rgba(255,255,255,0.78);max-width:52ch;margin:22px 0 34px;
+  }
+  .tag-row{display:flex;flex-wrap:wrap;gap:9px;margin-bottom:38px;}
+  .tag{
+    font-size:13px;padding:7px 14px;border:1px solid rgba(255,255,255,0.22);
+    border-radius:999px;color:rgba(255,255,255,0.88);background:rgba(255,255,255,0.04);
+  }
+  .btn-row{display:flex;gap:12px;flex-wrap:wrap;}
+  .btn{
+    display:inline-flex;align-items:center;gap:8px;
+    padding:13px 24px;border-radius:8px;font-size:14.5px;font-weight:600;
+    transition:transform .15s, background .2s, box-shadow .2s;
+  }
+  .btn-primary{background:var(--sky-500);color:var(--navy-950);}
+  .btn-primary:hover{background:var(--sky-400);transform:translateY(-1px);}
+  .btn-ghost{border:1px solid rgba(255,255,255,0.3);color:var(--white);}
+  .btn-ghost:hover{background:rgba(255,255,255,0.08);transform:translateY(-1px);}
+
+  /* hero LNP graphic */
+  .lnp-figure{position:relative;display:flex;align-items:center;justify-content:center;}
+  .lnp-figure svg{width:100%;max-width:400px;height:auto;}
+  .orbit{transform-origin:200px 200px;animation:spin 36s linear infinite;}
+  .orbit2{transform-origin:200px 200px;animation:spin 52s linear infinite reverse;}
+  @keyframes spin{to{transform:rotate(360deg);}}
+  .pulse{animation:pulse 3.2s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:.55;}50%{opacity:1;}}
+
+  /* ---------- section shell ---------- */
+  .section{padding:96px 0;}
+  .section.alt{background:var(--sky-050);}
+  .section-head{max-width:640px;margin-bottom:52px;}
+  .section-head .kicker{
+    font-size:12.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--sky-500);
+  }
+  .section-head h2{
+    font-family:var(--serif);font-weight:700;font-size:clamp(26px,3vw,34px);
+    color:var(--navy-900);margin:10px 0 14px;letter-spacing:-.01em;
+  }
+  .section-head p{color:var(--gray-600);font-size:15.5px;max-width:56ch;}
+
+  /* ---------- research grid ---------- */
+  .research-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px;}
+  .rcard{
+    background:var(--white);border:1px solid var(--border);border-radius:14px;
+    padding:30px 26px;transition:box-shadow .25s, transform .25s, border-color .25s;
+  }
+  .rcard:hover{box-shadow:0 16px 40px -18px rgba(11,35,64,0.28);transform:translateY(-3px);border-color:var(--sky-400);}
+  .rcard .ricon{
+    width:46px;height:46px;margin-bottom:18px;
+  }
+  .rcard .rno{font-family:var(--serif);font-size:12.5px;color:var(--sky-500);font-weight:600;letter-spacing:.06em;}
+  .rcard h3{font-family:var(--serif);font-size:18px;font-weight:600;color:var(--navy-900);margin:8px 0 10px;line-height:1.4;}
+  .rcard p{font-size:14px;color:var(--gray-600);}
+
+  .research-intro{
+    display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;margin-bottom:56px;
+  }
+  .research-intro p{color:var(--gray-600);font-size:15.5px;margin-bottom:14px;}
+  .research-intro .stat-row{display:flex;gap:32px;margin-top:26px;flex-wrap:wrap;}
+  .stat b{display:block;font-family:var(--serif);font-size:28px;color:var(--navy-900);}
+  .stat span{font-size:12.5px;color:var(--gray-500);}
+
+  /* ---------- publications ---------- */
+  .pub-filter{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:30px;}
+  .pub-filter button{
+    font-size:13px;font-weight:600;padding:8px 16px;border-radius:999px;
+    border:1px solid var(--border);background:var(--white);color:var(--gray-600);cursor:pointer;
+    transition:all .2s;
+  }
+  .pub-filter button.active, .pub-filter button:hover{background:var(--navy-900);border-color:var(--navy-900);color:var(--white);}
+  .pub-list{border-top:1px solid var(--border);}
+  .pub-item{
+    display:grid;grid-template-columns:64px 1fr auto;gap:20px;
+    padding:22px 0;border-bottom:1px solid var(--border);align-items:start;
+  }
+  .pub-item .pyear{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--sky-500);}
+  .pub-item h4{font-size:15.5px;font-weight:600;color:var(--navy-900);line-height:1.5;margin-bottom:6px;}
+  .pub-item .authors{font-size:13.5px;color:var(--gray-600);margin-bottom:4px;}
+  .pub-item .journal{font-size:13px;color:var(--gray-500);font-style:italic;}
+  .pub-item .pbadge{
+    align-self:start;font-size:11px;font-weight:700;letter-spacing:.04em;
+    padding:5px 10px;border-radius:6px;background:var(--sky-100);color:var(--navy-800);white-space:nowrap;
+  }
+  .pub-note{
+    margin-top:24px;font-size:13px;color:var(--gray-500);
+    border-left:3px solid var(--sky-400);padding:10px 16px;background:var(--sky-050);border-radius:0 8px 8px 0;
+  }
+
+  /* ---------- members ---------- */
+  .pi-card{
+    display:grid;grid-template-columns:200px 1fr;gap:38px;
+    background:var(--white);border:1px solid var(--border);border-radius:16px;
+    padding:36px;margin-bottom:48px;align-items:center;
+  }
+  .pi-photo{
+    width:200px;height:200px;border-radius:14px;
+    background:linear-gradient(160deg,var(--navy-800),var(--navy-950));
+    display:flex;align-items:center;justify-content:center;
+    color:var(--sky-400);font-family:var(--serif);font-size:44px;font-weight:700;
+  }
+  .pi-card h3{font-family:var(--serif);font-size:22px;color:var(--navy-900);margin-bottom:4px;}
+  .pi-card .role{font-size:13.5px;color:var(--sky-500);font-weight:600;margin-bottom:14px;}
+  .pi-card p{font-size:14.5px;color:var(--gray-600);margin-bottom:14px;}
+  .pi-meta{display:flex;gap:18px;flex-wrap:wrap;font-size:13px;color:var(--gray-600);}
+  .pi-meta span{display:flex;align-items:center;gap:6px;}
+
+  .member-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+  .mcard{text-align:left;}
+  .mphoto{
+    width:100%;aspect-ratio:1/1;border-radius:12px;margin-bottom:14px;
+    background:var(--sky-100);display:flex;align-items:center;justify-content:center;
+    color:var(--navy-700);font-family:var(--serif);font-size:26px;font-weight:600;
+    border:1px solid var(--border);
+  }
+  .mcard h4{font-size:15px;font-weight:600;color:var(--navy-900);margin-bottom:3px;}
+  .mcard .mrole{font-size:12.5px;color:var(--sky-500);font-weight:600;margin-bottom:6px;}
+  .mcard .minterest{font-size:12.5px;color:var(--gray-500);}
+  .member-group-label{font-size:13px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:var(--navy-800);margin:44px 0 20px;}
+  .member-group-label:first-of-type{margin-top:0;}
+
+  /* ---------- news ---------- */
+  .news-list{border-top:1px solid var(--border);}
+  .news-item{
+    display:grid;grid-template-columns:120px auto 1fr;gap:22px;align-items:baseline;
+    padding:20px 0;border-bottom:1px solid var(--border);
+  }
+  .news-item .ndate{font-size:13px;color:var(--gray-500);font-variant-numeric:tabular-nums;}
+  .news-item .ntag{
+    font-size:11px;font-weight:700;padding:4px 10px;border-radius:6px;white-space:nowrap;
+    background:var(--navy-900);color:var(--white);
+  }
+  .news-item .ntag.pub{background:var(--sky-500);color:var(--navy-950);}
+  .news-item .ntag.award{background:#d9a441;color:var(--navy-950);}
+  .news-item p{font-size:14.5px;color:var(--ink);}
+
+  /* ---------- contact ---------- */
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;}
+  .contact-info h3{font-family:var(--serif);font-size:20px;color:var(--navy-900);margin-bottom:18px;}
+  .info-row{display:flex;gap:14px;padding:14px 0;border-bottom:1px solid var(--border);}
+  .info-row .ico{width:20px;height:20px;flex-shrink:0;margin-top:2px;color:var(--sky-500);}
+  .info-row b{display:block;font-size:13px;color:var(--gray-500);margin-bottom:3px;}
+  .info-row span, .info-row a{font-size:14.5px;color:var(--ink);}
+  .map-box{
+    border-radius:14px;overflow:hidden;border:1px solid var(--border);
+    aspect-ratio:4/3.1;background:
+      linear-gradient(var(--sky-050),var(--sky-050)) padding-box;
+    position:relative;
+  }
+  .map-box svg{width:100%;height:100%;}
+
+  .contact-form{display:flex;flex-direction:column;gap:14px;}
+  .contact-form label{font-size:13px;font-weight:600;color:var(--navy-800);margin-bottom:-8px;}
+  .contact-form input, .contact-form textarea{
+    font-family:var(--sans);font-size:14.5px;padding:12px 14px;
+    border:1px solid var(--border);border-radius:8px;background:var(--white);
+    transition:border-color .2s, box-shadow .2s;
+  }
+  .contact-form input:focus, .contact-form textarea:focus{
+    outline:none;border-color:var(--sky-500);box-shadow:0 0 0 3px rgba(79,169,224,0.18);
+  }
+  .contact-form textarea{resize:vertical;min-height:110px;}
+  .contact-form button{
+    margin-top:6px;align-self:flex-start;
+    background:var(--navy-900);color:var(--white);border:none;
+    padding:13px 26px;border-radius:8px;font-size:14.5px;font-weight:600;cursor:pointer;
+    transition:background .2s, transform .15s;
+  }
+  .contact-form button:hover{background:var(--navy-800);transform:translateY(-1px);}
+  .form-note{font-size:12.5px;color:var(--gray-500);}
+
+  /* ---------- footer ---------- */
+  footer{background:var(--navy-950);color:rgba(255,255,255,0.7);padding:48px 0 28px;}
+  .footer-top{display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:28px;padding-bottom:32px;border-bottom:1px solid rgba(255,255,255,0.1);}
+  footer .brand .en{color:var(--white);}
+  .footer-links{display:flex;gap:26px;flex-wrap:wrap;}
+  .footer-links a{font-size:13.5px;color:rgba(255,255,255,0.68);transition:color .2s;}
+  .footer-links a:hover{color:var(--sky-400);}
+  .footer-bottom{display:flex;justify-content:space-between;padding-top:22px;font-size:12.5px;color:rgba(255,255,255,0.45);flex-wrap:wrap;gap:10px;}
+
+  /* skip link */
+  .skip-link{
+    position:absolute;left:-999px;top:0;background:var(--sky-500);color:var(--navy-950);
+    padding:10px 16px;border-radius:0 0 8px 0;font-weight:600;z-index:200;
+  }
+  .skip-link:focus{left:0;}
+
+  :focus-visible{outline:2px solid var(--sky-400);outline-offset:2px;}
+
+  /* ---------- responsive ---------- */
+  @media (max-width:980px){
+    .research-grid{grid-template-columns:repeat(2,1fr);}
+    .member-grid{grid-template-columns:repeat(3,1fr);}
+    .hero .wrap{grid-template-columns:1fr;}
+    .lnp-figure{order:-1;max-width:280px;margin:0 auto;}
+    .research-intro{grid-template-columns:1fr;}
+    .contact-grid{grid-template-columns:1fr;}
+  }
+  @media (max-width:760px){
+    nav.mainnav{
+      position:fixed;top:72px;left:0;right:0;bottom:0;
+      background:var(--navy-950);
+      transform:translateX(100%);transition:transform .3s ease;
+      padding:20px;overflow-y:auto;
+    }
+    nav.mainnav.open{transform:translateX(0);}
+    nav.mainnav ul{flex-direction:column;gap:4px;}
+    nav.mainnav a{padding:16px;font-size:16px;border-bottom:1px solid rgba(255,255,255,0.06);border-radius:0;}
+    .navtoggle{display:block;}
+    .hero{padding:140px 0 72px;}
+    .section{padding:64px 0;}
+    .research-grid{grid-template-columns:1fr;}
+    .member-grid{grid-template-columns:repeat(2,1fr);}
+    .pi-card{grid-template-columns:1fr;text-align:left;}
+    .pi-photo{width:140px;height:140px;font-size:32px;}
+    .pub-item{grid-template-columns:1fr;gap:8px;}
+    .pub-item .pbadge{justify-self:start;}
+    .news-item{grid-template-columns:1fr;gap:6px;}
+    .footer-top{flex-direction:column;}
+  }
+  @media (max-width:480px){
+    .member-grid{grid-template-columns:repeat(2,1fr);}
+    .wrap{padding:0 20px;}
+  }
+</style>
+</head>
+<body>
+<a href="#home" class="skip-link">본문 바로가기</a>
+
+<header>
+  <div class="navbar">
+    <a href="#home" class="brand" aria-label="BAND Lab 홈으로 이동">
+      <svg class="brand-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <circle cx="20" cy="20" r="18" stroke="#7cc2ea" stroke-width="1.4" stroke-dasharray="3 3"/>
+        <circle cx="20" cy="20" r="11" fill="#4fa9e0" fill-opacity="0.18" stroke="#4fa9e0" stroke-width="1.4"/>
+        <path d="M14 20c1.5-3 3-4 6-4s4.5 1 6 4c-1.5 3-3 4-6 4s-4.5-1-6-4z" stroke="#eaf5fc" stroke-width="1.3" fill="none"/>
+        <circle cx="20" cy="20" r="1.6" fill="#ffffff"/>
+      </svg>
+      <span class="brand-text">
+        <span class="en">BAND Lab</span>
+        <span class="ko">나노바이오의약전달연구실</span>
+      </span>
+    </a>
+    <nav class="mainnav" id="mainnav" aria-label="주요 메뉴">
+      <ul>
+        <li><a href="#home">Home</a></li>
+        <li><a href="#research">Research</a></li>
+        <li><a href="#publications">Publications</a></li>
+        <li><a href="#members">Members</a></li>
+        <li><a href="#news">News</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+    </nav>
+    <button class="navtoggle" id="navtoggle" aria-label="메뉴 열기" aria-expanded="false" aria-controls="mainnav">
+      <span></span>
+    </button>
+  </div>
+</header>
+
+<main id="home">
+  <!-- ================= HERO ================= -->
+  <section class="hero">
+    <div class="wrap">
+      <div>
+        <p class="eyebrow">College of Pharmacy / Medicine</p>
+        <h1>Biologics &amp; Advanced Nanomedicine Delivery
+          <span class="ko">나노바이오의약전달연구실</span>
+        </h1>
+        <p class="lead">
+          지질기반 나노입자 플랫폼을 설계하여 유전자 및 약물을 정밀하게 전달하고,
+          암·염증·대사질환의 새로운 면역치료 전략을 연구합니다.
+        </p>
+        <div class="tag-row">
+          <span class="tag">지질기반 나노입자</span>
+          <span class="tag">유전자·약물전달</span>
+          <span class="tag">면역치료</span>
+          <span class="tag">암 / 염증 / 대사질환</span>
+        </div>
+        <div class="btn-row">
+          <a href="#research" class="btn btn-primary">연구 분야 살펴보기</a>
+          <a href="#contact" class="btn btn-ghost">Join Us — 대학원생 모집</a>
+        </div>
+      </div>
+
+      <div class="lnp-figure" aria-hidden="true">
+        <svg viewBox="0 0 400 400" xmlns="http://www.w3.org/2000/svg">
+          <g class="orbit">
+            <circle cx="200" cy="200" r="170" stroke="#ffffff" stroke-opacity="0.08" stroke-width="1"/>
+            <circle cx="200" cy="30" r="3" fill="#7cc2ea"/>
+            <circle cx="370" cy="200" r="2.4" fill="#4fa9e0"/>
+          </g>
+          <g class="orbit2">
+            <circle cx="200" cy="200" r="140" stroke="#ffffff" stroke-opacity="0.06" stroke-width="1"/>
+            <circle cx="60" cy="200" r="2.6" fill="#eaf5fc"/>
+          </g>
+          <!-- lipid bilayer shell -->
+          <circle cx="200" cy="200" r="110" fill="#123a63" fill-opacity="0.55" stroke="#4fa9e0" stroke-width="1.6"/>
+          <circle cx="200" cy="200" r="95" fill="none" stroke="#7cc2ea" stroke-width="1" stroke-dasharray="2 5" class="pulse"/>
+          <!-- encapsulated nucleic acid strand -->
+          <path d="M140 190 C 165 160, 185 220, 210 190 S 250 160, 260 195 S 235 230, 205 215 S 160 230, 140 190"
+                fill="none" stroke="#ffffff" stroke-width="2.2" stroke-linecap="round" opacity="0.9"/>
+          <!-- lipid head dots ringing the shell -->
+          <g fill="#ffffff">
+            <circle cx="200" cy="90" r="4"/><circle cx="271" cy="119" r="4"/><circle cx="310" cy="200" r="4"/>
+            <circle cx="271" cy="281" r="4"/><circle cx="200" cy="310" r="4"/><circle cx="129" cy="281" r="4"/>
+            <circle cx="90" cy="200" r="4"/><circle cx="129" cy="119" r="4"/>
+          </g>
+          <g fill="#4fa9e0" opacity="0.8">
+            <circle cx="238" cy="102" r="2.6"/><circle cx="296" cy="158" r="2.6"/><circle cx="296" cy="242" r="2.6"/>
+            <circle cx="238" cy="298" r="2.6"/><circle cx="162" cy="298" r="2.6"/><circle cx="104" cy="242" r="2.6"/>
+            <circle cx="104" cy="158" r="2.6"/><circle cx="162" cy="102" r="2.6"/>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= RESEARCH ================= -->
+  <section class="section" id="research">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Research</span>
+        <h2>4가지 핵심 연구 분야</h2>
+      </div>
+
+      <div class="research-intro">
+        <div>
+          <p>
+            BAND 연구실은 지질기반 나노입자(Lipid-based Nanoparticle) 플랫폼 기술을 기반으로,
+            핵산 및 저분자 약물의 표적 전달 시스템을 개발합니다.
+          </p>
+          <p>
+            이를 통해 mRNA·siRNA 치료제, 면역관문억제 병용요법, 종양미세환경 조절 전략을 설계하며,
+            암·염증·대사질환 치료의 새로운 가능성을 제시하는 것을 목표로 합니다.
+          </p>
+          <div class="stat-row">
+            <div class="stat"><b>12+</b><span>진행 중인 연구 과제</span></div>
+            <div class="stat"><b>30+</b><span>누적 발표 논문</span></div>
+            <div class="stat"><b>5</b><span>산학·국제 협력</span></div>
+          </div>
+        </div>
+        <div>
+          <svg viewBox="0 0 420 260" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <rect x="0" y="0" width="420" height="260" rx="14" fill="#eaf5fc"/>
+            <g stroke="#1c4d7c" stroke-width="1.4" fill="none" opacity="0.8">
+              <path d="M40 210 Q 110 90 200 150 T 380 60"/>
+            </g>
+            <g fill="#4fa9e0"><circle cx="40" cy="210" r="5"/><circle cx="200" cy="150" r="5"/><circle cx="380" cy="60" r="5"/></g>
+            <g fill="#0b2340"><circle cx="120" cy="150" r="3"/><circle cx="290" cy="95" r="3"/></g>
+            <circle cx="200" cy="150" r="34" fill="none" stroke="#0b2340" stroke-width="1" stroke-dasharray="2 4"/>
+          </svg>
+        </div>
+      </div>
+
+      <div class="research-grid">
+        <article class="rcard">
+          <svg class="ricon" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="23" cy="23" r="15" stroke="#4fa9e0" stroke-width="1.6"/>
+            <circle cx="23" cy="23" r="9" stroke="#0b2340" stroke-width="1.4" stroke-dasharray="2 3"/>
+            <circle cx="23" cy="9" r="2" fill="#4fa9e0"/><circle cx="36" cy="30" r="2" fill="#4fa9e0"/><circle cx="10" cy="30" r="2" fill="#4fa9e0"/>
+          </svg>
+          <span class="rno">01 — LNP Platform</span>
+          <h3>지질기반 나노입자 설계</h3>
+          <p>이온화지질 및 부형지질 조합 최적화를 통해 안정성과 전달 효율이 높은 차세대 LNP 플랫폼을 개발합니다.</p>
+        </article>
+
+        <article class="rcard">
+          <svg class="ricon" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M14 12c6 6 12-6 18 0" stroke="#4fa9e0" stroke-width="1.8" fill="none"/>
+            <path d="M14 23c6 6 12-6 18 0" stroke="#0b2340" stroke-width="1.8" fill="none"/>
+            <path d="M14 34c6 6 12-6 18 0" stroke="#4fa9e0" stroke-width="1.8" fill="none"/>
+          </svg>
+          <span class="rno">02 — Delivery</span>
+          <h3>유전자 · 약물 전달 시스템</h3>
+          <p>mRNA, siRNA, 유전자 편집 소재와 저분자 약물의 표적조직 특이적 전달 기술을 연구합니다.</p>
+        </article>
+
+        <article class="rcard">
+          <svg class="ricon" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <circle cx="16" cy="18" r="7" stroke="#4fa9e0" stroke-width="1.6"/>
+            <circle cx="30" cy="18" r="7" stroke="#0b2340" stroke-width="1.6"/>
+            <circle cx="23" cy="30" r="7" stroke="#4fa9e0" stroke-width="1.6"/>
+          </svg>
+          <span class="rno">03 — Immunotherapy</span>
+          <h3>면역치료 전략 개발</h3>
+          <p>나노입자 기반 항원·면역조절제 전달을 통해 면역관문억제 병용요법 및 백신 플랫폼을 연구합니다.</p>
+        </article>
+
+        <article class="rcard">
+          <svg class="ricon" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <path d="M8 34 L18 20 L26 27 L38 10" stroke="#4fa9e0" stroke-width="1.8" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+            <circle cx="38" cy="10" r="2.4" fill="#0b2340"/>
+          </svg>
+          <span class="rno">04 — Disease Models</span>
+          <h3>암 · 염증 · 대사질환</h3>
+          <p>종양미세환경, 만성염증, 대사질환 동물모델을 활용해 나노의약품의 치료 효능을 검증합니다.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= PUBLICATIONS ================= -->
+  <section class="section alt" id="publications">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Publications</span>
+        <h2>주요 논문</h2>
+        <p>대표 연구 성과를 소개합니다. 전체 목록은 Google Scholar를 통해 확인하실 수 있습니다.</p>
+      </div>
+
+      <div class="pub-filter" role="tablist" aria-label="논문 분류 필터">
+        <button class="active" type="button">전체</button>
+        <button type="button">LNP / 전달체</button>
+        <button type="button">면역치료</button>
+        <button type="button">암 · 대사질환</button>
+      </div>
+
+      <div class="pub-list">
+        <div class="pub-item">
+          <span class="pyear">2026</span>
+          <div>
+            <h4>Ionizable Lipid Engineering for Enhanced mRNA Delivery to Tumor-Associated Macrophages</h4>
+            <p class="authors">Kim J., Park S., <strong>[교신저자명]</strong> et al.</p>
+            <p class="journal">Journal of Controlled Release (예시)</p>
+          </div>
+          <span class="pbadge">LNP</span>
+        </div>
+        <div class="pub-item">
+          <span class="pyear">2025</span>
+          <div>
+            <h4>Lipid Nanoparticle-Mediated Co-delivery of siRNA and Checkpoint Inhibitor for Combination Cancer Immunotherapy</h4>
+            <p class="authors">Lee H., Choi Y., <strong>[교신저자명]</strong> et al.</p>
+            <p class="journal">Advanced Healthcare Materials (예시)</p>
+          </div>
+          <span class="pbadge">면역치료</span>
+        </div>
+        <div class="pub-item">
+          <span class="pyear">2025</span>
+          <div>
+            <h4>Nanoparticle-based Modulation of Adipose Tissue Inflammation in Diet-induced Obesity</h4>
+            <p class="authors">Jung M., <strong>[교신저자명]</strong> et al.</p>
+            <p class="journal">Biomaterials (예시)</p>
+          </div>
+          <span class="pbadge">대사질환</span>
+        </div>
+        <div class="pub-item">
+          <span class="pyear">2024</span>
+          <div>
+            <h4>Design Rules for Organ-Selective Lipid Nanoparticles via Combinatorial Library Screening</h4>
+            <p class="authors">Han S., Yoon T., <strong>[교신저자명]</strong> et al.</p>
+            <p class="journal">Nature Nanotechnology (예시)</p>
+          </div>
+          <span class="pbadge">LNP</span>
+        </div>
+        <div class="pub-item">
+          <span class="pyear">2024</span>
+          <div>
+            <h4>PEG-lipid Density Controls Biodistribution and Tumor Penetration of Nanomedicines</h4>
+            <p class="authors">Oh D., <strong>[교신저자명]</strong> et al.</p>
+            <p class="journal">Journal of Nanobiotechnology (예시)</p>
+          </div>
+          <span class="pbadge">암 · 대사질환</span>
+        </div>
+      </div>
+      <p class="pub-note">※ 위 논문 정보는 홈페이지 구성을 위한 예시(placeholder) 데이터입니다. 실제 논문 목록으로 교체해 주세요.</p>
+    </div>
+  </section>
+
+  <!-- ================= MEMBERS ================= -->
+  <section class="section" id="members">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Members</span>
+        <h2>연구실 구성원</h2>
+      </div>
+
+      <div class="pi-card">
+        <div class="pi-photo">PI</div>
+        <div>
+          <h3>[지도교수 성명], Ph.D.</h3>
+          <p class="role">Principal Investigator · 나노바이오의약전달연구실</p>
+          <p>
+            약학 및 생명공학 분야에서 나노의약품 전달 시스템을 연구해 왔으며,
+            지질기반 나노입자를 활용한 유전자·약물 전달 및 면역치료 전략 개발에 주력하고 있습니다.
+          </p>
+          <div class="pi-meta">
+            <span>📍 OO대학교 약학대학 / 의과대학</span>
+            <span>✉️ pi@bandlab.ac.kr</span>
+            <span>🎓 Ph.D., OO대학교</span>
+          </div>
+        </div>
+      </div>
+
+      <p class="member-group-label">박사후연구원 · 박사과정</p>
+      <div class="member-grid">
+        <div class="mcard"><div class="mphoto">KH</div><h4>김OO</h4><p class="mrole">박사후연구원</p><p class="minterest">LNP 제형 최적화</p></div>
+        <div class="mcard"><div class="mphoto">LS</div><h4>이OO</h4><p class="mrole">박사과정</p><p class="minterest">mRNA 전달 시스템</p></div>
+        <div class="mcard"><div class="mphoto">PJ</div><h4>박OO</h4><p class="mrole">박사과정</p><p class="minterest">종양 면역치료</p></div>
+        <div class="mcard"><div class="mphoto">CY</div><h4>최OO</h4><p class="mrole">박사과정</p><p class="minterest">대사질환 동물모델</p></div>
+      </div>
+
+      <p class="member-group-label">석사과정 · 학부연구생</p>
+      <div class="member-grid">
+        <div class="mcard"><div class="mphoto">JM</div><h4>정OO</h4><p class="mrole">석사과정</p><p class="minterest">siRNA 전달체</p></div>
+        <div class="mcard"><div class="mphoto">HD</div><h4>한OO</h4><p class="mrole">석사과정</p><p class="minterest">염증질환 나노의약</p></div>
+        <div class="mcard"><div class="mphoto">YT</div><h4>윤OO</h4><p class="mrole">학부연구생</p><p class="minterest">지질 라이브러리 스크리닝</p></div>
+        <div class="mcard"><div class="mphoto">OD</div><h4>오OO</h4><p class="mrole">학부연구생</p><p class="minterest">약물동태 분석</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= NEWS ================= -->
+  <section class="section alt" id="news">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">News</span>
+        <h2>연구실 소식</h2>
+      </div>
+      <div class="news-list">
+        <div class="news-item">
+          <span class="ndate">2026.05</span>
+          <span class="ntag pub">Publication</span>
+          <p>연구실 논문이 Journal of Controlled Release(예시)에 게재 승인되었습니다.</p>
+        </div>
+        <div class="news-item">
+          <span class="ndate">2026.03</span>
+          <span class="ntag">People</span>
+          <p>신입 박사과정 대학원생 2명이 연구실에 합류하였습니다. 환영합니다!</p>
+        </div>
+        <div class="news-item">
+          <span class="ndate">2025.11</span>
+          <span class="ntag award">Award</span>
+          <p>대학원생 김OO이 대한약학회 학술대회에서 우수포스터상을 수상하였습니다.</p>
+        </div>
+        <div class="news-item">
+          <span class="ndate">2025.09</span>
+          <span class="ntag">Grant</span>
+          <p>한국연구재단 중견연구자지원사업(예시)에 신규 과제가 선정되었습니다.</p>
+        </div>
+        <div class="news-item">
+          <span class="ndate">2025.06</span>
+          <span class="ntag">People</span>
+          <p>2025학년도 대학원 신입생 모집 설명회를 진행하였습니다.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ================= CONTACT ================= -->
+  <section class="section" id="contact">
+    <div class="wrap">
+      <div class="section-head">
+        <span class="kicker">Contact</span>
+        <h2>오시는 길 & 문의</h2>
+        <p>대학원 진학 및 공동연구 문의를 환영합니다. 아래 정보로 연락 주시기 바랍니다.</p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-info">
+          <h3>연구실 정보</h3>
+          <div class="info-row">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M12 21s7-6.5 7-12a7 7 0 1 0-14 0c0 5.5 7 12 7 12z"/><circle cx="12" cy="9" r="2.4"/></svg>
+            <div><b>주소</b><span>[OO대학교 약학관/의과학관 OOO호], 대한민국</span></div>
+          </div>
+          <div class="info-row">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+            <div><b>이메일</b><a href="mailto:bandlab@university.ac.kr">bandlab@university.ac.kr</a></div>
+          </div>
+          <div class="info-row">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><path d="M3 5c0-1 1-2 2-2h3l2 5-2.5 1.5a12 12 0 0 0 6 6L15 13l5 2v3c0 1-1 2-2 2C10 20 3 13 3 5z"/></svg>
+            <div><b>전화</b><span>02-0000-0000</span></div>
+          </div>
+          <div class="info-row">
+            <svg class="ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3a14 14 0 0 1 0 18 14 14 0 0 1 0-18z"/></svg>
+            <div><b>Lab 위치</b><span>지하철 OO역 도보 10분 / 정문 셔틀버스 이용</span></div>
+          </div>
+
+          <div class="map-box" role="img" aria-label="연구실 위치 약도">
+            <svg viewBox="0 0 420 330" xmlns="http://www.w3.org/2000/svg">
+              <rect width="420" height="330" fill="#eaf5fc"/>
+              <g stroke="#bcdcf0" stroke-width="1">
+                <line x1="0" y1="70" x2="420" y2="70"/><line x1="0" y1="150" x2="420" y2="150"/>
+                <line x1="0" y1="230" x2="420" y2="230"/><line x1="105" y1="0" x2="105" y2="330"/>
+                <line x1="210" y1="0" x2="210" y2="330"/><line x1="315" y1="0" x2="315" y2="330"/>
+              </g>
+              <rect x="150" y="120" width="120" height="80" rx="6" fill="#0b2340"/>
+              <text x="210" y="165" text-anchor="middle" fill="#ffffff" font-size="13" font-family="Pretendard, sans-serif" font-weight="600">BAND Lab</text>
+              <circle cx="210" cy="200" r="6" fill="#4fa9e0"/>
+              <path d="M210 200 v20" stroke="#4fa9e0" stroke-width="2"/>
+            </svg>
+          </div>
+        </div>
+
+        <form class="contact-form" onsubmit="return false;">
+          <h3 style="font-family:var(--serif);font-size:20px;color:var(--navy-900);">문의하기</h3>
+          <label for="cf-name">이름</label>
+          <input id="cf-name" type="text" placeholder="홍길동" required>
+          <label for="cf-email">이메일</label>
+          <input id="cf-email" type="email" placeholder="you@example.com" required>
+          <label for="cf-subject">문의 유형</label>
+          <input id="cf-subject" type="text" placeholder="예: 대학원 진학 문의 / 공동연구 제안">
+          <label for="cf-msg">내용</label>
+          <textarea id="cf-msg" placeholder="문의하실 내용을 입력해 주세요." required></textarea>
+          <button type="submit">문의 보내기</button>
+          <p class="form-note">※ 예시 양식입니다. 실제 발송을 위해서는 서버 연동이 필요합니다.</p>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="footer-top">
+      <a href="#home" class="brand">
+        <svg class="brand-mark" viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+          <circle cx="20" cy="20" r="18" stroke="#7cc2ea" stroke-width="1.4" stroke-dasharray="3 3"/>
+          <circle cx="20" cy="20" r="11" fill="#4fa9e0" fill-opacity="0.18" stroke="#4fa9e0" stroke-width="1.4"/>
+          <circle cx="20" cy="20" r="1.6" fill="#ffffff"/>
+        </svg>
+        <span class="brand-text">
+          <span class="en">BAND Lab</span>
+          <span class="ko">나노바이오의약전달연구실</span>
+        </span>
+      </a>
+      <nav class="footer-links" aria-label="바닥글 메뉴">
+        <a href="#research">Research</a>
+        <a href="#publications">Publications</a>
+        <a href="#members">Members</a>
+        <a href="#news">News</a>
+        <a href="#contact">Contact</a>
+      </nav>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2026 Biologics &amp; Advanced Nanomedicine Delivery Laboratory. All rights reserved.</span>
+      <span>[OO대학교 약학대학] · bandlab@university.ac.kr</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // mobile nav toggle
+  const toggle = document.getElementById('navtoggle');
+  const nav = document.getElementById('mainnav');
+  toggle.addEventListener('click', () => {
+    const open = nav.classList.toggle('open');
+    toggle.classList.toggle('open', open);
+    toggle.setAttribute('aria-expanded', open);
+  });
+  nav.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    nav.classList.remove('open');
+    toggle.classList.remove('open');
+    toggle.setAttribute('aria-expanded', false);
+  }));
+
+  // scrollspy for active nav link
+  const links = Array.from(document.querySelectorAll('nav.mainnav a'));
+  const sections = links.map(a => document.querySelector(a.getAttribute('href')));
+  const setActive = () => {
+    let idx = 0;
+    const pos = window.scrollY + 100;
+    sections.forEach((sec, i) => { if (sec && sec.offsetTop <= pos) idx = i; });
+    links.forEach((a, i) => a.classList.toggle('active', i === idx));
+  };
+  window.addEventListener('scroll', setActive);
+  setActive();
+
+  // publication filter (simple client-side demo)
+  const filterButtons = document.querySelectorAll('.pub-filter button');
+  const pubItems = document.querySelectorAll('.pub-item');
+  filterButtons.forEach(btn => {
+    btn.addEventListener('click', () => {
+      filterButtons.forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      const label = btn.textContent.trim();
+      pubItems.forEach(item => {
+        const badge = item.querySelector('.pbadge').textContent.trim();
+        item.style.display = (label === '전체' || badge === label) ? 'grid' : 'none';
+      });
+    });
+  });
+</script>
+</body>
+</html>
