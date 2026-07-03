@@ -733,8 +733,6 @@
            <img src="images/map.png" alt="BAND Lab 위치">
           </div>
         </div>
-
-        </form>
       </div>
     </div>
   </section>
@@ -805,8 +803,8 @@
       btn.classList.add('active');
       const label = btn.textContent.trim();
       pubItems.forEach(item => {
-        const badge = item.querySelector('.pbadge').textContent.trim();
-        item.style.display = (label === '전체' || badge === label) ? 'grid' : 'none';
+       const badges = Array.from(item.querySelectorAll('.pbadge')).map(b => b.textContent.trim());
+        item.style.display = (label === '전체' || badges.includes(label)) ? 'grid' : 'none';
       });
     });
   });
